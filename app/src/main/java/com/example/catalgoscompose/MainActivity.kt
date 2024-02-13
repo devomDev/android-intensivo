@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i("viewState","onCreate")
 
         val api = connectRetrofit()
 
@@ -53,7 +54,37 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.i("viewState","onStart")
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i("viewState","onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("viewState","onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("viewState","onStop")
+    }
+
+    override fun onRestart() {
+        Log.i("viewState","onRestart")
+        super.onRestart()
+
+    }
+
+    override fun onDestroy() {
+        Log.i("viewState","onDestroy")
+        super.onDestroy()
+
+    }
 }
 
 @Composable
@@ -76,7 +107,6 @@ fun getAllCharactersRemote(api: ApiClient, onSuccess: (List<CharacterBo>) -> Uni
         val listChars: ArrayList<CharacterDto> = api.getAllCharacterApi().results
         val listBo = mutableListOf<CharacterBo>()
         listChars.map {
-            Log.i("image", it.toString())
             val item = CharacterBo(name = it.name!!, url = it.image!!)
             listBo.add(item)
         }
