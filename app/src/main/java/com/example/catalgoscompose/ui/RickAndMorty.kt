@@ -1,6 +1,5 @@
-package com.example.catalgoscompose
+package com.example.catalgoscompose.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +21,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import coil.compose.AsyncImage
+import com.example.catalgoscompose.api.ApiClient
 import com.example.catalgoscompose.models.bo.CharacterBo
+import com.example.catalgoscompose.models.dto.CharacterDto
+import com.example.catalgoscompose.util.BASE_URL
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+fun connectRetrofit(): ApiClient {
+    val retrofit =
+        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+    return retrofit.create(ApiClient::class.java)
+}
+
+fun getAllCharactersRemote(api: ApiClient, onSuccess: (List<CharacterBo>) -> Unit) {
+
+    val scope = CoroutineScope(Dispatchers.IO)
+    scope.launch {
+        val listChars: ArrayList<CharacterDto> = api.getAllCharacterApi().results
+        val listBo = mutableListOf<CharacterBo>()
+        listChars.map {
+            val item = CharacterBo(name = it.name!!, url = it.image!!)
+            listBo.add(item)
+        }
+        onSuccess(listBo)
+    }
+}
 
 @Composable
 fun CharacterList(list: List<CharacterBo>) {

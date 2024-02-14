@@ -1,10 +1,11 @@
-package com.example.catalgoscompose
+package com.example.catalgoscompose.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
 import com.example.catalgoscompose.api.ApiClient
 import com.example.catalgoscompose.models.bo.CharacterBo
 import com.example.catalgoscompose.models.dto.CharacterDto
@@ -41,13 +41,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
 
-                    var dataList: List<CharacterBo> by rememberSaveable { mutableStateOf(emptyList()) }
 
+                    /*var dataList: List<CharacterBo> by rememberSaveable { mutableStateOf(emptyList()) }
+                    CharacterList(list = dataList)
                     getAllCharactersRemote(api, onSuccess = {
                         dataList = it
-                    })
+                    })*/
+                    MyButtonExample()
 
-                    CharacterList(list = dataList)
 
                 }
             }
@@ -84,33 +85,6 @@ class MainActivity : ComponentActivity() {
         Log.i("viewState","onDestroy")
         super.onDestroy()
 
-    }
-}
-
-@Composable
-private fun RenderList(it: List<CharacterBo>) {
-    CharacterList(list = it)
-}
-
-fun connectRetrofit(): ApiClient {
-    val retrofit =
-        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-    return retrofit.create(ApiClient::class.java)
-}
-
-fun getAllCharactersRemote(api: ApiClient, onSuccess: (List<CharacterBo>) -> Unit) {
-
-    val scope = CoroutineScope(Dispatchers.IO)
-    scope.launch {
-        val listChars: ArrayList<CharacterDto> = api.getAllCharacterApi().results
-        val listBo = mutableListOf<CharacterBo>()
-        listChars.map {
-            val item = CharacterBo(name = it.name!!, url = it.image!!)
-            listBo.add(item)
-        }
-        onSuccess(listBo)
     }
 }
 
