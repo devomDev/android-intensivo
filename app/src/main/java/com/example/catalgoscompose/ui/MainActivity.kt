@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     getAllCharactersRemote(api, onSuccess = {
                         dataList = it
                     })*/
-                    MyButtonExample()
+                    MySwitch()
 
 
                 }
