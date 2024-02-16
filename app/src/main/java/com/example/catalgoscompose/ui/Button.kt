@@ -216,7 +216,7 @@ fun MySwitch() {
         MyTriState(text = "Carne", enable = enable)
         MyTriState(text = "Linaza", enable = enable)
 
-        MyRadio(enable = false, text ="str")
+        MyRadio(enable = enable, text ="Puerto Rico")
 
         MyRadio(text = "Canada", enable)
         MyRadio(text = "Perú", enable)

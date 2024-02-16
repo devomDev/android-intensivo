@@ -1,5 +1,7 @@
 package com.example.catalgoscompose.ui
 
+import MyBiSlider
+import MySlider
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -47,8 +49,8 @@ class MainActivity : ComponentActivity() {
                     getAllCharactersRemote(api, onSuccess = {
                         dataList = it
                     })*/
-                    MySwitch()
 
+                    MyConstraintLayout()
 
                 }
             }
